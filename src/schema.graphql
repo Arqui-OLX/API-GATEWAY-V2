@@ -1,0 +1,9 @@
+type Query{
+    exists(email: String!): Boolean
+}
+
+type Mutation {
+    login(email: String!, password: String!): String
+    create(email: String!, password: String!): String
+    modifyPassword(email: String!, newPassword: String!): Boolean
+}
