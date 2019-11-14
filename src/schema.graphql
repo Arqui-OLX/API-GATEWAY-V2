@@ -1,17 +1,56 @@
 type Query{
+
+    #QUERIES LOGIN
     exists(email: String!): Boolean
+    #--------------------------------------------
+
+    #QUERIES LOCACIONES
+    allLocations: [Location!]
+    locationById(location_id: Int!): Location!
+    #--------------------------------------------
 }
 
-
-
 type Mutation {
-  
+    
+    #MUTATIONS LOGIN
     login(email: String!, password: String!): LoginUsuario
     create(email: String!, password: String!): LoginUsuario
     modifyPassword(email: String!, newPassword: String!): Boolean
+    #-----------------------------------------------
+
+    #MUTATIONS LOCACIONES
+    createLocation(location: LocationInput!): Location!
+    deleteLocation(id: Int!): Boolean
+    updateLocation(id: Int!, location: LocationInput2!): Location!
+    #------------------------------------------------
 }
 
+#TIPOS LOGIN
 type LoginUsuario{
     token:String!,
     userId: Int
 }
+#--------------------------------------------------------
+
+
+#TIPOS LOCATION
+type Location {
+    id: Int!
+    address: String!
+	city: String!
+	latitude: Float!
+	longitude: Float!
+}
+input LocationInput {
+    address: String!
+	city: String!
+	latitude: Float!
+	longitude: Float!
+}
+input LocationInput2 {
+    address: String
+	city: String
+	latitude: Float
+	longitude: Float
+}
+#----------------------------------------------------------------

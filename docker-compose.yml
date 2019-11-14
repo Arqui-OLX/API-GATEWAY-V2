@@ -1,0 +1,8 @@
+version: "2"
+services:
+  storage-ms:
+    build: .
+    labels:
+      io.rancher.scheduler.affinity:host_label: "id=n1"
+    ports:
+      - "4000:4000"
