@@ -27,7 +27,12 @@ const resolvers = {
             
 			if(res.data === true) {
                 var token = await jwt.sign({email: args.email}, APP_SECRET)
-				return token
+                var userId = await axios.get(`http://35.208.164.215:3001/profile/?email=${args.email}`)
+                const respuesta = {
+                    token: token,
+                    userId: userId.data[0].id
+                }
+				return respuesta
 			}
 			else {
 				return false; }
@@ -41,12 +46,26 @@ const resolvers = {
             else
                 console.log("No esta Autorizado")*/
 
+            const infoProfile = {
+                nickname: '',
+                email: args.email,
+                phone: '',
+            }
+
             let res = await axios.post(`${URL_LOGIN}/insert`, args);
+            await axios.post('http://35.208.164.215:3001/profile', infoProfile);
             
             
 			if(res.data === true) {
                 var token = await jwt.sign({email: args.email}, APP_SECRET)
-				return token
+                var userId = await axios.get(`http://35.208.164.215:3001/profile/?email=${args.email}`)
+                //console.log(userId.data[0].id)
+                const respuesta = {
+                    token: token,
+                    userId: userId.data[0].id
+                }
+                return respuesta;
+                //return token;
 			}
 			else {
 				return false; }
