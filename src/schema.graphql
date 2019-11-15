@@ -27,7 +27,7 @@ type Mutation {
 
 #TIPOS LOGIN
 type LoginUsuario{
-    token:String!,
+    token:String
     userId: Int
 }
 #--------------------------------------------------------
@@ -35,11 +35,11 @@ type LoginUsuario{
 
 #TIPOS LOCATION
 type Location {
-    id: Int!
-    address: String!
-	city: String!
-	latitude: Float!
-	longitude: Float!
+    id: Int
+    address: String
+	city: String
+	latitude: Float
+	longitude: Float
 }
 input LocationInput {
     address: String!

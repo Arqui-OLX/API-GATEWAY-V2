@@ -1,7 +1,7 @@
 const {GraphQLServer} = require('graphql-yoga')
 const axios = require('axios');
 var jwt = require('jsonwebtoken');
-const URL_LOGIN = `http://localhost:3001`;
+const URL_LOGIN = `http://35.208.241.159:3001`;
 const URL_LOCATIONS = `http://35.208.164.215:3000`;
 
 const {APP_SECRET, getEmail} = require('./utils')
@@ -24,13 +24,23 @@ const resolvers = {
             const userEmail = getEmail(context)
             
             if(userEmail != false) {
-                console.log('Autorizado')
                 let res = await axios.get(`${URL_LOCATIONS}/locations`);
                 console.log(res.data)
                 return res.data;    
             } else {
-                console.log('No Autorizado')
-                return false;
+                throw new Error('Unauthorized');
+            }
+        },
+        locationById: async(parent, args, context) => {
+
+            const userEmail = getEmail(context)
+            
+            if(userEmail != false) {
+                let res = await axios.get(`${URL_LOCATIONS}/locations/${args.location_id}`);
+                console.log(res.data)
+                return res.data;    
+            } else {
+                throw new Error('Unauthorized');
             }
         }
     },
@@ -51,7 +61,7 @@ const resolvers = {
 				return respuesta
 			}
 			else {
-				return false; }
+				throw new Error('Wrong credentials'); }
         },
 
         create: async (parent, args, context) => {
@@ -84,7 +94,7 @@ const resolvers = {
                 //return token;
 			}
 			else {
-				return false; }
+				throw new Error('User already exists');; }
         }
     },
 }
