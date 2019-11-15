@@ -8,6 +8,16 @@ type Query{
     allLocations: [Location!]
     locationById(location_id: Int!): Location!
     #--------------------------------------------
+
+    #QUERIES PROFILE
+    profileByID(profile_id: Int!): [Profile!]
+    profileByEmail(profile_email: String!): [Profile!]
+    #--------------------------------------------
+
+    #QUERIES CHAT
+    requestMyRooms(id: Int!): [messagesChat!]
+    listMessages(id: String!): [resMessage!]
+    #--------------------------------------------
 }
 
 type Mutation {
@@ -22,6 +32,16 @@ type Mutation {
     createLocation(location: LocationInput!): Location!
     deleteLocation(id: Int!): Boolean
     updateLocation(id: Int!, location: LocationInput2!): Location!
+    #------------------------------------------------
+
+    #MUTATIONS PROFILE
+    addFavToPost(fav: favInput!): Boolean
+    updateProfile(id: Int!, profile: ProfileInput!): Boolean
+    deleteProfile(id: Int!): Boolean
+    #------------------------------------------------
+
+    #MUTATIONS CHAT
+    createRoom(messages: messagesInput!, users: usersInput!): Boolean
     #------------------------------------------------
 }
 
@@ -54,3 +74,56 @@ input LocationInput2 {
 	longitude: Float
 }
 #----------------------------------------------------------------
+
+
+#TIPOS PROFILE
+type Profile {
+    id: Int
+    nickname: String
+    email: String
+    phone: String
+}
+
+input favInput{
+    id: Int
+    fk_post: String
+}
+
+input ProfileInput {
+    nickname: String
+    email: String
+    phone: String
+}
+#----------------------------------------------------------------
+
+#TIPOS CHAT
+input messagesInput{
+    userId: Int!
+    message: String!
+}
+
+input usersInput{
+    buyerID: Int!
+    sellerID: Int!
+}
+
+type messagesChat{
+    id: String
+    user: Int
+    lastMessage: lastMessage
+}
+
+type lastMessage{
+    userID: Int!
+    message: String!
+}
+
+type resMessage{
+    _id: String
+    messages: [messages]
+}
+
+type messages{
+    userID: Int
+    message: String
+}
